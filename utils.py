@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 from tensorflow.python.summary.summary_iterator import summary_iterator
 
+
 def get_logs_values(logdir, models, nb_seeds):
     """
     Download data from Tensorboard log files and returns the mean episodic reward array, the std episodic reward array
