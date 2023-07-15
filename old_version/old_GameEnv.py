@@ -1,9 +1,8 @@
-import gym
 import numpy as np
+import gymnasium as gym
+from gymnasium import spaces
+from players import Player
 from typing import Optional, Union, List, Tuple, Any, Dict
-from gym import spaces
-from gym.core import RenderFrame
-from Players import Player
 
 
 class GameEnv(gym.Env):
@@ -78,6 +77,9 @@ class GameEnv(gym.Env):
         The actions that actions_assignement refer to are the game actions :
         'sepuku', 'hostage', 'ronins' and 'imperial poets'
         """
+
+        if self.verbose:
+            self.show_game_state()
 
         # Action of the bot player
         bot_obs = self.get_observation(self.bot_player)
@@ -216,9 +218,7 @@ class GameEnv(gym.Env):
 
     def show_game_state(self):
         print('Game state : ')
-        print(f'Fight : {self.fight_nb + 1} / {self.fights_per_game}   Deaths during fights : {self.death_per_fights}')
+        print(f'Fight : {self.fight_nb + 1} / {self.fights_per_game}   Deaths during fight : {self.death_per_fights}')
         self.rl_player.show_statistics()
         self.bot_player.show_statistics()
-
-    def render(self) -> Optional[Union[RenderFrame, List[RenderFrame]]]:
-        pass
+        print()
