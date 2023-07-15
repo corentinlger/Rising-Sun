@@ -2,8 +2,6 @@ import numpy as np
 
 
 class Player:
-
-
     """
     This class implement and update the players statistics used by both the RL
     Agent and the Bot player
@@ -41,7 +39,6 @@ class Player:
 
     def choose_action(self, state):
         self.gold_used_current_fight = np.random.randint(low=0, high=self.golds)
-        # print(f'{self.name} : {self.gold_used_current_fight} golds used on {self.golds}')
         golds_per_action = np.zeros(4)
         for i in range(self.gold_used_current_fight):
             action = np.random.randint(0, len(golds_per_action))
@@ -53,13 +50,13 @@ class Player:
 class SepukuPoetsPlayer(Player):
 
     def choose_action(self, state):
-        if state[0] == 0:
-            self.gold_used_current_fight = self.golds // 2
+        fight_number = state[0]
+        if fight_number == 0:
+            self.gold_used_current_fight = int(self.golds/2)
         else:
             self.gold_used_current_fight = self.golds
-        # print(f'{self.name} : {self.gold_used_current_fight} golds used on {self.golds}')
         golds_per_action = np.zeros(4)
-        golds_sepuku = self.gold_used_current_fight // 2
+        golds_sepuku = int(self.gold_used_current_fight/2)
         golds_poets = self.gold_used_current_fight - golds_sepuku
         golds_per_action[0] += golds_sepuku
         golds_per_action[3] += golds_poets
@@ -70,16 +67,18 @@ class SepukuPoetsPlayer(Player):
 class HeuristicPlayer(Player):
 
     def choose_action(self, state):
-        # state[0] = numéro du combat
-        if state[0] == 0:
-            self.gold_used_current_fight = self.golds // 2  # si c'est le premier on utilise la moitié de nos golds
+        fight_number = state[0]
+        if fight_number == 0:
+            # If it is the first fight, use half of the golds
+            self.gold_used_current_fight = int(self.golds/2)
         else:
-            self.gold_used_current_fight = self.golds  # si c'est le dernier on utilise tous nos golds
-        # print(f'{self.name} : {self.gold_used_current_fight} golds used on {self.golds}')
+            # Else use all golds available
+            self.gold_used_current_fight = self.golds
         golds_per_action = np.zeros(4)
         for i in range(self.gold_used_current_fight):
             action = np.random.randint(0, len(golds_per_action))
             golds_per_action[action] += 1
+        print(f"Bot action : {golds_per_action} nb_gold_action : {np.sum(golds_per_action)}/{self.golds}")
         self.golds -= self.gold_used_current_fight
         return golds_per_action
 
