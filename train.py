@@ -27,6 +27,7 @@ if __name__ == '__main__':
     env = GameEnv(rl_agent_player=rl_player, bot_player=bot_player, fights_per_game=fights_per_game, verbose=True)
     check_env(env, warn=True)
 
+    # Train on multiple random seeds 
     for seed in range(nb_seeds):
         rl_player.reset()
         bot_player.reset()

@@ -1,11 +1,10 @@
 import os
+
 import numpy as np
 import pandas as pd
-
 import matplotlib.pyplot as plt
 
 from tensorflow.python.summary.summary_iterator import summary_iterator
-
 
 def get_logs_values(logdir, models, nb_seeds):
     """

@@ -4,7 +4,7 @@ import numpy as np
 class Player:
     """
     This class implement and update the players statistics used by both the RL
-    Agent and the Bot player
+    Agent and the Bot player.
 
     Each player starts the game with random statistics (number of golds, number
     of units per fight, number of ronins) and counters (number of points scored,
@@ -12,10 +12,10 @@ class Player:
 
     For the Bot player, this class also implements the actions to return, based
     one hard-coded rules, in order to imitate realistic behaviors to play against
-    the Rl Agent
+    the Rl Agent.
 
     The players have a reset method that re-initialize those parameters and that
-    is used by the reset method of the gym environment
+    is used by the reset method of the gym environment.
     """
 
     def __init__(self, name, fights_per_game=2):
@@ -48,7 +48,11 @@ class Player:
 
 
 class SepukuPoetsPlayer(Player):
+    """
+    Class to create an opponent with a hard coded behavior.
 
+    At each time step, this player tries to maximize its points by applying the action sepuku (sacrificing its units) and imperial poets (win points per units killed).
+    """
     def choose_action(self, state):
         fight_number = state[0]
         if fight_number == 0:
@@ -65,7 +69,11 @@ class SepukuPoetsPlayer(Player):
 
 
 class HeuristicPlayer(Player):
+    """
+    Class to create an opponent with a hard coded behavior.
 
+    If it is the first fight, this player only uses half of his golds. It it is the last one, he uses all golds.
+    """
     def choose_action(self, state):
         fight_number = state[0]
         if fight_number == 0:
