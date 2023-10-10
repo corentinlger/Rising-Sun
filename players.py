@@ -86,7 +86,23 @@ class HeuristicPlayer(Player):
         for i in range(self.gold_used_current_fight):
             action = np.random.randint(0, len(golds_per_action))
             golds_per_action[action] += 1
-        print(f"Bot action : {golds_per_action} nb_gold_action : {np.sum(golds_per_action)}/{self.golds}")
         self.golds -= self.gold_used_current_fight
+        return golds_per_action
+    
+
+
+class HumanPlayer(Player):
+    """
+    Class to play against a bot player and input your own actions.
+    """
+    def choose_action(self):
+        print("Enter your gold values for sepuku, hostage, ronins and poets separated with spaces : ")
+        user_input = input()
+
+        input_list = user_input.split()
+
+        golds_per_action = np.array([int(value) for value in input_list])
+        print(f"{golds_per_action = }")
+        
         return golds_per_action
 
