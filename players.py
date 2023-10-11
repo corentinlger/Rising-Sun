@@ -37,6 +37,9 @@ class Player:
     def show_statistics(self):
         print(f"{self.name}   Golds: {self.golds}  Units: {self.force_per_fights}  Ronins: {self.nb_ronins}  Points: {self.nb_points}")
 
+    def get_statistics(self):
+        return self.name, self.golds, self.force_per_fights, self.nb_ronins, self.nb_points
+
     def choose_action(self, state):
         self.gold_used_current_fight = np.random.randint(low=0, high=self.golds)
         golds_per_action = np.zeros(4)

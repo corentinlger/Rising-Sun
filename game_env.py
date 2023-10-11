@@ -1,8 +1,11 @@
+from tabulate import tabulate
+from typing import Optional, Union, List, Tuple, Any, Dict
+
 import numpy as np
 import gymnasium as gym
 from gymnasium import spaces
+
 from players import Player
-from typing import Optional, Union, List, Tuple, Any, Dict
 
 
 class GameEnv(gym.Env):
@@ -229,8 +232,21 @@ class GameEnv(gym.Env):
         player.nb_points += self.death_per_fights[self.fight_nb]
 
     def _show_game_state(self):
-        print('Game state : ')
-        print(f'Fight : {self.fight_nb + 1} / {self.fights_per_game}   Deaths during fight : {self.death_per_fights}')
-        self.rl_player.show_statistics()
-        self.bot_player.show_statistics()
-        print()
+        rl_name, rl_golds, rl_force_per_fights, rl_nb_ronins, rl_nb_points = self.rl_player.get_statistics()
+        bot_name, bot_golds, bot_force_per_fights, bot_nb_ronins, bot_nb_points = self.bot_player.get_statistics()
+
+        rl_force_str = ', '.join(map(str, rl_force_per_fights))
+        bot_force_str = ', '.join(map(str, bot_force_per_fights))
+
+        data = [
+            ["", rl_name, bot_name],
+            ["Golds", rl_golds, bot_golds],
+            ["Force per Fights", rl_force_str, bot_force_str],
+            ["Number of Ronins", rl_nb_ronins, bot_nb_ronins],
+            ["Number of Points", rl_nb_points, bot_nb_points]
+        ]
+
+        print("\nCurrent state:")
+        print(f'Fight : {self.fight_nb + 1} / {self.fights_per_game}')
+        print(tabulate(data, headers="firstrow", tablefmt="fancy_grid"))
+
