@@ -9,8 +9,7 @@ from players import Player, HeuristicPlayer, SepukuPoetsPlayer, HumanPlayer
 def welcome_player():
     print("Hello and welcome to this version of the fighting phase of Rising Sun board game !")
 
-def initialize_players(bot_behavior):
-    # Initialization of the players
+def initialize_players(args):
     player_name = input("\nEnter your name : ")
     player = HumanPlayer(name=player_name)
 
@@ -18,7 +17,10 @@ def initialize_players(bot_behavior):
                        "heuristic": HeuristicPlayer,
                        "sepuku_poets": SepukuPoetsPlayer}
     
-    bot_player = bot_player_dict[bot_behavior](name='bot_player')
+    if args.bot_behavior in bot_player_dict:
+        bot_player = bot_player_dict[args.bot_behavior](name='bot_player')
+    else:
+        raise(ValueError("Unknown bot bahavior, RL opponents are not implemented yet"))
 
     return player, bot_player
 
@@ -81,13 +83,11 @@ if __name__ == "__main__":
     parser.add_argument("--nb_fights", type=int, required=False, default=3)
     parser.add_argument("--fights_per_game", type=int, required=False, default=2)
     parser.add_argument("--bot_behavior", type=str, required=False, default="random")
-    # If False, give the arguments to load the RL model 
     parser.add_argument("--training_timesteps", type=int, required=False, default=100000)
     parser.add_argument("--seed", type=int, required=False, default=42)
     parser.add_argument("--algo", type=str, required=False, default="PPO")
 
     args = parser.parse_args()
-
 
     welcome_player()
 
