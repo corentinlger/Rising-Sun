@@ -128,7 +128,6 @@ class GameEnv(gym.Env):
         action = np.rint(action)
         while sum(action) > self.rl_player.golds:
             idx = np.random.randint(len(action))
-            print(idx)
             action[idx] = max(action[idx]-1, 0)
         return action
 
