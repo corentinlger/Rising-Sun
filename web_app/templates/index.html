@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rising Sun Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to Rising Sun Game</h1>
+    <form action="/play" method="post">
+        <label for="bot_behavior">Select Bot Behavior:</label>
+        <select name="bot_behavior" id="bot_behavior">
+            <option value="random">Random</option>
+            <option value="heuristic">Heuristic</option>
+            <option value="sepuku_poets">Sepuku Poets</option>
+        </select>
+        <br>
+        <label for="nb_fights">Number of Fights:</label>
+        <input type="number" name="nb_fights" id="nb_fights" value="3">
+        <br>
+        <label for="fights_per_game">Fights Per Game:</label>
+        <input type="number" name="fights_per_game" id="fights_per_game" value="2">
+        <br>
+        <input type="submit" value="Play">
+    </form>
+</body>
+</html>
