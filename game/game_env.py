@@ -5,7 +5,7 @@ import numpy as np
 import gymnasium as gym
 from gymnasium import spaces
 
-from players import Player
+from game.players import Player
 
 
 class GameEnv(gym.Env):

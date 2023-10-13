@@ -3,8 +3,8 @@ import argparse
 
 from stable_baselines3 import PPO
 
-from game_env import GameEnv
-from players import Player, HeuristicPlayer, SepukuPoetsPlayer, HumanPlayer
+from game.game_env import GameEnv
+from game.players import Player, HeuristicPlayer, SepukuPoetsPlayer, HumanPlayer
 
 def welcome_player():
     print("Hello and welcome to this version of the fighting phase of Rising Sun board game !")

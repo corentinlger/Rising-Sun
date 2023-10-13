@@ -1,8 +1,8 @@
 import os
 import argparse
 
-from game_env import GameEnv
-from players import Player, HeuristicPlayer
+from game.game_env import GameEnv
+from game.players import Player, HeuristicPlayer
 
 from stable_baselines3 import PPO, DDPG, A2C, TD3, SAC
 from stable_baselines3.common.env_checker import check_env

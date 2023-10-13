@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 
 from stable_baselines3 import PPO
 
-from game_env import GameEnv
-from players import Player, HeuristicPlayer
+from game.game_env import GameEnv
+from game.players import Player, HeuristicPlayer
 
 # Trained model loading
 model_path = 'models/seed_0_100k_steps.zip'

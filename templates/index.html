@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Welcome to Rising Sun Game</h1>
+    <h1>Welcome to the Rising Sun Game</h1>
+    <div class="image-container">
+        <img src="{{ url_for('static', filename='rising_sun.jpg') }}" alt="Photo of Rising Sun game" class="image">
+    </div>
+    <p>This is a simplified version of the fighting phase of the Rising Sun board game. You can choose parameters for the game and play against a bot !</p>
     <form action="/play" method="post">
         <label for="bot_behavior">Select Bot Behavior:</label>
         <select name="bot_behavior" id="bot_behavior">

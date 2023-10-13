@@ -6,11 +6,29 @@ body {
 
 h1 {
     color: #333;
+    margin-bottom: 70px;
 }
 
-form {
-    max-width: 400px;
+.image-container {
+    width: 400px;
+    height: 250px;
     margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.image {
+    max-width: 100%;
+}
+
+
+form {
+    /* margin-top: 50px; */
+    max-width: 400px;
+    margin: 40px auto;
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 10px;
@@ -40,7 +58,7 @@ select {
 
 input[type="submit"] {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #d04b16;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -49,5 +67,5 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #b31500;
 }
