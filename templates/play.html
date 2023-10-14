@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rising Sun Game - Play</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Play Rising Sun Game</h1>
+    
+    <!-- Display game information -->
+    <div class="game-info">
+        <!-- Insert logic here to display game state or information -->
+        <p>Insert information about the game, potentially ask for displaying rules</p>
+    </div>
+    
+    <!-- Form for player's action -->
+    <form action="/play" method="post">
+        <label for="Sepuku">Sepuku:</label>
+        <input type="number" name="Sepuku" id="Sepuku">
+        <br>
+
+        <label for="Hostage">Hostage:</label>
+        <input type="number" name="Hostage" id="Hostage">
+        <br>
+
+        <label for="Ronins">Ronins:</label>
+        <input type="number" name="Ronins" id="Ronins">
+        <br>
+
+        <label for="Imperial_Poets">Imperial_Poets:</label>
+        <input type="number" name="Imperial_Poets" id="Imperial_Poets">
+        <br>    
+
+        <!-- Add more action inputs as needed -->
+        
+        <input type="submit" value="Submit Action">
+    </form>
+</body>
+</html>
