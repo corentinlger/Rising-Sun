@@ -6,24 +6,25 @@ from stable_baselines3 import PPO
 from game.game_env import GameEnv
 from game.players import Player, HeuristicPlayer, SepukuPoetsPlayer, HumanPlayer
 
-def welcome_player():
+def get_player_name():
     print("Hello and welcome to this version of the fighting phase of Rising Sun board game !")
-
-def initialize_players(args):
     player_name = input("\nEnter your name : ")
+    return player_name
+
+def initialize_players(player_name, bot_behavior):
+    
     player = HumanPlayer(name=player_name)
 
     bot_player_dict = {"random" : Player,
                        "heuristic": HeuristicPlayer,
                        "sepuku_poets": SepukuPoetsPlayer}
     
-    if args.bot_behavior in bot_player_dict:
-        bot_player = bot_player_dict[args.bot_behavior](name='bot_player')
+    if bot_behavior in bot_player_dict:
+        bot_player = bot_player_dict[bot_behavior](name='bot_player')
     else:
         raise(ValueError("Unknown bot bahavior, RL opponents are not implemented yet"))
 
     return player, bot_player
-
 
 def ask_displaying_rules():
     print("\nDo you want to read the rules (Y/N) ?")    
@@ -36,7 +37,7 @@ def ask_displaying_rules():
     return True if display_rules == "Y" else False
      
 def display_rules():
-    with open('rules.txt', 'r') as file:
+    with open('utils/rules.txt', 'r') as file:
             print("\n ---- RULES ----")
             print(file.read())
             input("Press any key to continue...")
@@ -47,7 +48,7 @@ def play_game(player, bot_player, args):
     player_won_fights = bot_won_fights = 0
     env = GameEnv(rl_agent_player=player, bot_player=bot_player, fights_per_game=args.fights_per_game, verbose=True)
 
-    for fight in range(args.nb_fights):
+    for game in range(args.nb_game):
         print("")
         obs, info = env.reset()
         done = False
@@ -80,7 +81,7 @@ def print_game_result(player_won_fights, bot_won_fights):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--nb_fights", type=int, required=False, default=3)
+    parser.add_argument("--nb_games", type=int, required=False, default=3)
     parser.add_argument("--fights_per_game", type=int, required=False, default=2)
     parser.add_argument("--bot_behavior", type=str, required=False, default="random")
     parser.add_argument("--training_timesteps", type=int, required=False, default=100000)
@@ -89,9 +90,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    welcome_player()
+    player_name = get_player_name()
 
-    player, bot_player = initialize_players(args.bot_behavior)
+    player, bot_player = initialize_players(player_name, args.bot_behavior)
 
     if ask_displaying_rules():
          display_rules()
