@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rising Sun Game - Rules</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="rules_page">
+    <h1>Rules for Rising Sun Game</h1>
+    
+    <p>This is a simplified version of combat phases in the game Rising Sun. The game progresses through rounds of combat where you'll face off against a bot. Your objective is to win as many rounds as possible.
+        To win a round, you need to accumulate more points than your opponent during a combat phase. A phase comprises multiple battles across different territories.
+    </p>
+
+    <p>Each player begins with a set amount of gold coins, units on each territory, and a number of ronin (mercenaries you can call upon in battle). The game proceeds in turns. In each turn, players have the option to use a specific number of coins for each action. Here are the actions:
+    </p>
+    <ul>
+        <li>Sepuku: Sacrifice your units to gain one point per sacrificed unit.</li>
+        <li>Hostage: Capture enemy units to earn 1 gold coin per captured unit.</li>
+        <li>Ronin: Call in mercenaries to reinforce your troops on a territory.</li>
+        <li>Imperial Poets: Gain one point per killed unit (whether yours or your enemies').</li>
+    </ul>
+
+    <p>Each player places bets with coins on these 4 actions (they can also choose not to bet on certain actions, or on any). The player who bets the most coins on an action gets that action and executes it during the combat.
+    </p>
+
+    <p>There are several ways to win battles by generating points.
+        We've seen that sepuku allows you to gain points with the sepuku action. These killed units may potentially count towards the imperial poets action. The primary way to win is by winning a battle. To do this, you must have more units than your opponent on a territory. This includes both the units already present and the ronin called in.
+        If a player has their units captured by the hostage action, they don't count during the battle, but they also can't be killed. The units of the opponent who loses a territory are killed and potentially count for the imperial poets action.
+        </p>
+
+    <p>At the end of a battle on a territory, the winner gives the gold coins they spent to win to their opponent.
+    </p>
+
+    <p>That covers the rules. Good luck!
+    </p>
+
+    <a href="{{ url_for('index') }}">Back to main page</a>
+
+    </body>
+</html>

@@ -4,6 +4,9 @@ body {
     margin: 50px;
 }
 
+.rules_page {
+    text-align: left;
+}
 h1 {
     color: #333;
     margin-bottom: 70px;
@@ -32,6 +35,7 @@ form {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
 }
 
 label, select, input {
@@ -65,7 +69,7 @@ select {
 
 input[type="submit"] {
     padding: 10px 20px;
-    background-color: #d04b16;
+    background-color: #163bd0;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -74,5 +78,15 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #b31500;
+    background-color: #0027b3;
 }
+
+a {
+    text-decoration: none; 
+    color: #007bff; 
+}
+
+a:hover {
+    color: #0056b3; 
+}
+

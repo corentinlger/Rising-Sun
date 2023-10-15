@@ -13,6 +13,10 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/rules')
+def rules():
+    return render_template('rules.html')
+
 @app.route('/play', methods=['POST'])
 def play():
     player_name = request.form['player_name']

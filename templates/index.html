@@ -30,6 +30,10 @@
         <input type="number" name="fights_per_game" id="fights_per_game" value="2">
         <br>
         <input type="submit" value="Play">
+        <!-- Before going to the page to play, ask if the player wants to see the rules, if yes, display them over the page  -->
     </form>
+
+    <a href="{{ url_for('rules') }}">Check the rules</a>
+
 </body>
 </html>
