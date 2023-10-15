@@ -11,8 +11,9 @@
     <!-- <div class="image-container">
         <img src="{{ url_for('static', filename='rising_sun.jpg') }}" alt="Photo of Rising Sun game" class="image">
     </div> -->
-    <p>This is a simplified version of the fighting phase of the Rising Sun board game. You can choose parameters for the game and play against a bot !</p>
-    <form action="/play" method="post">
+    <p>This is a simplified version of the fighting phase of the <a href="https://en.wikipedia.org/wiki/Rising_Sun_(board_game)">Rising Sun</a> board game. You can choose parameters for the game and play against a bot !</p>
+    
+    <form action="/play" method="post" onsubmit="return validateForm()">
         <label for="player_name">Name:</label>
         <input type="string" name="player_name" id="player_name" value="">
         <br>
@@ -37,3 +38,18 @@
 
 </body>
 </html>
+
+<script>
+function validateForm() {
+    var playerName = document.getElementById("player_name").value;
+    var nbFights = document.getElementById("nb_fights").value;
+    var fightsPerGame = document.getElementById("fights_per_game").value;
+
+    if (playerName == "" || nbFights == "" || fightsPerGame == "") {
+        alert("Please fill in all fields in the form");
+        return false
+    }
+
+    return true
+}
+</script>
