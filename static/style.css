@@ -90,3 +90,50 @@ a:hover {
     color: #0056b3; 
 }
 
+table.game-info {
+    border-collapse: collapse;
+    width: 50%;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    text-align: left;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+table.game-info caption {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+table.game-info th,
+table.game-info td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+table.game-info th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+table.game-info tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+form.horizontal-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+form.horizontal-form label,
+form.horizontal-form input {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+
+

@@ -6,11 +6,16 @@ from play_vs_bot import initialize_players, ask_displaying_rules, display_rules,
 
 
 app = Flask(__name__)
+game_initialized = False
 
 # Existing game logic goes here
 
 @app.route('/')
 def index():
+
+    global game_initialized
+    game_initialized = False
+
     return render_template('index.html')
 
 @app.route('/rules')
@@ -19,23 +24,37 @@ def rules():
 
 @app.route('/play', methods=['POST'])
 def play():
+
+    global game_initialized
+
     player_name = request.form['player_name']
     bot_behavior = request.form['bot_behavior']
+    fights_per_game = int(request.form['fights_per_game'])
+    nb_games = (request.form['nb_games'])
 
-    # TODO : When the player clicks the 'play' button, start the game (potentially use a new page / modify the aspect of current page)
+    if not game_initialized:
+        player, bot_player = initialize_players(player_name, bot_behavior)
+        env = GameEnv(player=player, bot_player=bot_player, fights_per_game=fights_per_game, verbose=False)
+        game_initialized = True
+    else:
+        player, bot_player = env.player, env.bot_player
 
-    # Initialize the two players
-    player, bot_player = initialize_players(player_name, bot_behavior)
+    player_state = player.get_statistics()
+    bot_state = bot_player.get_statistics()
 
-    # TODO : Use a form or adapted component to ask if the player wants the rules to be displayed, if yes display them with text on the game 
+    # state = name, golds, forces_per_fight, nb_ronins, nb_points
 
-    # TODO : When previous step if finished, start the game 
+    # TODO : Display players states in a clean table 
 
-    # TODO : This means at each timestep the statistics (=state) of the game are displayed, and player needs to take an action 
-    # TODO : To take an action, input 4 numbers (=golds per action) and retrieve those numbers to calculate next state and rewards
-    # TODO : When action is processed, return new game state to the user and let him choose his next action 
+    # TODO : Enable the player to take an action by filling a kinf of form an d submitting it 
+
+    # TODO : Calcultate the next state of the game and return it 
+
     # TODO : When the number of games is finished, print a message to show who won and propose to make a rematch
-    return render_template('play.html')
+
+    # TODO : Add a message to ask if the player is sure to wanna stop the game (surely with javascript idk lets go)
+
+    return render_template('play.html', player_state=player_state, bot_state=bot_state)
 
 if __name__ == '__main__':
     app.run(debug=True)

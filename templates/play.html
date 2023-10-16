@@ -9,14 +9,37 @@
 <body>
     <h1>Play Rising Sun Game</h1>
     
-    <!-- Display game information -->
-    <div class="game-info">
-        <!-- Insert logic here to display game state or information -->
-        <p>Insert information about the game, potentially ask for displaying rules</p>
-    </div>
+    <table class="game-info">
+        <caption>Player and Bot Player States</caption>
+        <tr>
+            <th>Name</th>
+            <th>{{ player_state[0] }}</th>
+            <th>{{ bot_state[0] }}</th>
+        </tr>
+        <tr>
+            <td>Golds</td>
+            <td>{{ player_state[1] }}</td>
+            <td>{{ bot_state[1] }}</td>
+        </tr>
+        <tr>
+            <td>Forces per Fight</td>
+            <td>{{ player_state[2] }}</td>
+            <td>{{ bot_state[2] }}</td>
+        </tr>
+        <tr>
+            <td>Number of Ronins</td>
+            <td>{{ player_state[3] }}</td>
+            <td>{{ bot_state[3] }}</td>
+        </tr>
+        <tr>
+            <td>Number of Points</td>
+            <td>{{ player_state[4] }}</td>
+            <td>{{ bot_state[4] }}</td>
+        </tr>
+    </table>
     
-    <!-- Form for player's action -->
-    <form action="/play" method="post">
+    
+    <form action="/play" method="post" class="horizontal-form">
         <label for="Sepuku">Sepuku:</label>
         <input type="number" name="Sepuku" id="Sepuku">
         <br>
@@ -32,9 +55,6 @@
         <label for="Imperial_Poets">Imperial_Poets:</label>
         <input type="number" name="Imperial_Poets" id="Imperial_Poets">
         <br>    
-
-        <!-- Add more action inputs as needed -->
-        
         <input type="submit" value="Submit Action">
     </form>
 
