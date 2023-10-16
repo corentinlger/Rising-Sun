@@ -46,7 +46,7 @@ def play_game(player, bot_player, args):
     print(f"\nBeginning of the game")
     # Initialize the environment 
     player_won_fights = bot_won_fights = 0
-    env = GameEnv(rl_agent_player=player, bot_player=bot_player, fights_per_game=args.fights_per_game, verbose=True)
+    env = GameEnv(player=player, bot_player=bot_player, fights_per_game=args.fights_per_game, verbose=True)
 
     for game in range(args.nb_game):
         print("")

@@ -59,7 +59,7 @@ if __name__ == '__main__':
     rl_player, bot_player = initialize_players()
     
     # Checking of the environment
-    env = GameEnv(rl_agent_player=rl_player, bot_player=bot_player, fights_per_game=args.fights_per_game, verbose=True)
+    env = GameEnv(player=rl_player, bot_player=bot_player, fights_per_game=args.fights_per_game, verbose=True)
     check_env(env, warn=True)
 
     # Train on multiple random seeds 

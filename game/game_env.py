@@ -21,7 +21,7 @@ class GameEnv(gym.Env):
     """
 
     def __init__(self,
-                 rl_agent_player: Player,
+                 player: Player,
                  bot_player: Player,
                  fights_per_game: Optional[int] = 2,
                  bot_reward_penalty: Optional[float] = 0.5,
@@ -29,7 +29,7 @@ class GameEnv(gym.Env):
                  verbose: Optional[bool] = False):
         super().__init__()
 
-        self.rl_player = rl_agent_player
+        self.rl_player = player
         self.bot_player = bot_player
         self.actions_names = ['Sepuku', 'Hostage', 'Ronins', 'Imperial Poets']
         self.fight_nb = 0
