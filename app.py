@@ -1,5 +1,4 @@
 import numpy as np
-
 from flask import Flask, render_template, request, jsonify
 
 from game.game_env import GameEnv
@@ -38,18 +37,20 @@ def play():
     else:
         player, bot_player = env.player, env.bot_player
 
-    while not done:
+    player_state = player.get_statistics()
+    bot_state = bot_player.get_statistics()
 
-        player_state = player.get_statistics()
-        bot_state = bot_player.get_statistics()
 
-        action = np.array(int(request.form['Sepuku']),
-                        int(request.form['Hostage']),
-                        int(request.form['Ronins']),
-                        int(request.form['Imperial_Poets']))
+    # while not done:
+
+    
+    #     action = np.array(int(request.form['Sepuku']),
+    #                     int(request.form['Hostage']),
+    #                     int(request.form['Ronins']),
+    #                     int(request.form['Imperial_Poets']))
         
 
-        obs, reward, done, truncated, info = env.step(action)
+    #     obs, reward, done, truncated, info = env.step(action)
 
 
     # TODO : Enable the player to take an action by filling a kinf of form an d submitting it 
@@ -60,7 +61,7 @@ def play():
 
     # TODO : Add a message to ask if the player is sure to wanna stop the game (surely with javascript idk lets go)
 
-    return render_template('game_state.html', player_state=player_state, bot_state=bot_state)
+    return render_template('play.html', player_state=player_state, bot_state=bot_state)
 
 if __name__ == '__main__':
     app.run(debug=True)
