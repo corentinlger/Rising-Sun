@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rising Sun Game - Rules</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body class="rules_page">
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="rules_page">
     <h1>Rules for Rising Sun Game</h1>
     
     <p>This is a simplified version of combat phases in the game Rising Sun. The game progresses through rounds of combat where you'll face off against a bot. Your objective is to win as many rounds as possible.
@@ -37,6 +32,5 @@
     </p>
 
     <a href="{{ url_for('index') }}">Back to main page</a>
-
-    </body>
-</html>
+</div>
+{% endblock %}

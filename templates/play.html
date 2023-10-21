@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rising Sun Game - Play</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends 'layout.html' %}
+
+{% block body %}
     <h1>Play Rising Sun Game</h1>
     
     <table class="game-info">
@@ -59,6 +53,33 @@
     </form>
 
     <a href="{{ url_for('index') }}">Go back to main page</a>
+{% endblock %}
 
-</body>
-</html>
+
+<script>
+//Handle form submission
+document.getElementById('action-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var sepuku = document.getElementById('Sepuku').value;
+    var hostage = document.getElementById('Hostage').value;
+    var ronins = document.getElementById('Ronins').value;
+    var imperialPoets = document.getElementById('Imperial_Poets').value;
+    updateGameState(sepuku, hostage, ronins, imperialPoets);
+});
+
+//Send action to server and update game state 
+function updateGameState(sepuku, hostage, ronins, imperialPoets) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/play', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 400) {
+            document.getElementById('game-state').innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send('Sepuku=' + encodeURIComponent(sepuku) + '&Hostage=' + encodeURIComponent(hostage) + '&Ronins=' + encodeURIComponent(ronins) + '&Imperial_Poets=' + encodeURIComponent(imperialPoets));
+
+}
+</script>
+
+

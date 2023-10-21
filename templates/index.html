@@ -1,24 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rising Sun Game</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends 'layout.html' %}
+
+{% block body %}
     <h1>Welcome to the Rising Sun Game</h1>
-    <!-- <div class="image-container">
-        <img src="{{ url_for('static', filename='rising_sun.jpg') }}" alt="Photo of Rising Sun game" class="image">
-    </div> -->
     <p>This is a simplified version of the fighting phase of the <a href="https://en.wikipedia.org/wiki/Rising_Sun_(board_game)">Rising Sun</a> board game. You can choose parameters for the game and play against a bot !</p>
-    
     <form action="/play" method="post" onsubmit="return validateForm()">
         <label for="player_name">Name:</label>
         <input type="string" name="player_name" id="player_name" value="">
         <br>
         <label for="bot_behavior">Select Bot Behavior:</label>
-        <select name="bot_behavior" id="bot_behavior">
+        <select name="bot_behavior" id="bot_behavior">  
             <option value="random">Random</option>
             <option value="heuristic">Heuristic</option>
             <option value="sepuku_poets">Sepuku Poets</option>
@@ -31,13 +21,9 @@
         <input type="number" name="fights_per_game" id="fights_per_game" value="2">
         <br>
         <input type="submit" value="Play">
-        <!-- Before going to the page to play, ask if the player wants to see the rules, if yes, display them over the page  -->
     </form>
-
     <a href="{{ url_for('rules') }}">Check the rules</a>
-
-</body>
-</html>
+{% endblock %}
 
 <script>
 function validateForm() {

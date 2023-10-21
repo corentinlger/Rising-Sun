@@ -1,21 +1,18 @@
+import numpy as np
+
 from flask import Flask, render_template, request, jsonify
 
 from game.game_env import GameEnv
-from game.players import Player, HeuristicPlayer, SepukuPoetsPlayer, HumanPlayer
-from play_vs_bot import initialize_players, ask_displaying_rules, display_rules, play_game, print_game_result
+from play_vs_bot import initialize_players
 
 
 app = Flask(__name__)
-game_initialized = False
-
-# Existing game logic goes here
+# game_initialized = False
 
 @app.route('/')
 def index():
-
-    global game_initialized
-    game_initialized = False
-
+    # global game_initialized
+    # game_initialized = False
     return render_template('index.html')
 
 @app.route('/rules')
@@ -25,8 +22,10 @@ def rules():
 @app.route('/play', methods=['POST'])
 def play():
 
-    global game_initialized
+    # global game_initialized
+    game_initialized = False
 
+    done = False
     player_name = request.form['player_name']
     bot_behavior = request.form['bot_behavior']
     fights_per_game = int(request.form['fights_per_game'])
@@ -39,12 +38,19 @@ def play():
     else:
         player, bot_player = env.player, env.bot_player
 
-    player_state = player.get_statistics()
-    bot_state = bot_player.get_statistics()
+    while not done:
 
-    # state = name, golds, forces_per_fight, nb_ronins, nb_points
+        player_state = player.get_statistics()
+        bot_state = bot_player.get_statistics()
 
-    # TODO : Display players states in a clean table 
+        action = np.array(int(request.form['Sepuku']),
+                        int(request.form['Hostage']),
+                        int(request.form['Ronins']),
+                        int(request.form['Imperial_Poets']))
+        
+
+        obs, reward, done, truncated, info = env.step(action)
+
 
     # TODO : Enable the player to take an action by filling a kinf of form an d submitting it 
 
@@ -54,7 +60,7 @@ def play():
 
     # TODO : Add a message to ask if the player is sure to wanna stop the game (surely with javascript idk lets go)
 
-    return render_template('play.html', player_state=player_state, bot_state=bot_state)
+    return render_template('game_state.html', player_state=player_state, bot_state=bot_state)
 
 if __name__ == '__main__':
     app.run(debug=True)
