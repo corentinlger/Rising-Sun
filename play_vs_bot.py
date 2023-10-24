@@ -48,7 +48,7 @@ def play_game(player, bot_player, args):
     player_won_fights = bot_won_fights = 0
     env = GameEnv(player=player, bot_player=bot_player, fights_per_game=args.fights_per_game, verbose=True)
 
-    for game in range(args.nb_game):
+    for game in range(args.nb_games):
         print("")
         obs, info = env.reset()
         done = False

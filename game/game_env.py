@@ -30,6 +30,7 @@ class GameEnv(gym.Env):
         super().__init__()
 
         self.rl_player = player
+        self.rl_player_gold = None
         self.bot_player = bot_player
         self.actions_names = ['Sepuku', 'Hostage', 'Ronins', 'Imperial Poets']
         self.fight_nb = 0

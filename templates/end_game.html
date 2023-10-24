@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="rules_page">
+    <h1>The game is finished</h1>
+    
+    <p>TODO : ask if the player wants to return to home menu or if he wants to take a revenge </p>
+    <p>TODO : Display if the player won or lost a game </p>
+
+    <a href="{{ url_for('index') }}">Back to main page</a>
+    <a href="{{ url_for('play') }}">Play again</a>
+</div>
+{% endblock %}
