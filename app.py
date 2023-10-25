@@ -10,6 +10,14 @@ def initialize_game(player_name, bot_behavior, fights_per_game=2):
     env = GameEnv(player=player, bot_player=bot_player, fights_per_game=fights_per_game, verbose=False)
     env.reset()
 
+def get_game_status(player, bot_player):
+    if player.nb_points > bot_player.nb_points:
+        return "Victory"
+    elif player.nb_points < bot_player.nb_points:
+        return "Defeat"
+    else:
+        return "Equality"
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -20,11 +28,17 @@ def index():
 
 @app.route('/rules')
 def rules():
+    global game_initialized
+    game_initialized = False
     return render_template('rules.html')
 
 @app.route('/end_game')
 def end_game():
-    return render_template('end_game.html')
+    global game_initialized
+    game_initialized = False
+
+    game_status = request.args.get('status')
+    return render_template('end_game.html', status=game_status)
 
 
 @app.route('/play', methods=['GET', 'POST'])
@@ -35,7 +49,6 @@ def play():
         player_name = request.form['player_name']
         bot_behavior = request.form['bot_behavior']
         fights_per_game = int(request.form['fights_per_game'])
-        nb_games = (request.form['nb_games'])
 
         initialize_game(player_name, bot_behavior, fights_per_game)
 
@@ -47,7 +60,8 @@ def play():
         obs, reward, done, truncated, info = env.step(action)
 
         if done or truncated:
-            return redirect('/end_game')
+            game_status = get_game_status(player, bot_player)
+            return redirect(f'/end_game?status={game_status}')
         
     game_initialized = True
     player_state = player.get_statistics()
@@ -60,10 +74,4 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
- # TODO : Enable the player to take an action by filling a kinf of form an d submitting it 
-
-# TODO : Calcultate the next state of the game and return it 
-
-# TODO : When the number of games is finished, print a message to show who won and propose to make a rematch
-
-# TODO : Add a message to ask if the player is sure to wanna stop the game (surely with javascript idk lets go)
+ # TODO : remember the game state when you use the play_again button
