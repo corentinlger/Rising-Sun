@@ -1,5 +1,5 @@
 .idea/
 __pycache__/
-rllib/
-old_version/
 TODO.md
+logs/
+models/

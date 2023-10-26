@@ -7,7 +7,7 @@ This agent can currently only be trained against hard-coded players (either rand
 - You can train an agent with the `train.py` file, and then test its performance with `evaluate_model.py`. 
 If you wish to code your own agent with a scripted behavior, you can do it by creating a new agent class inheriting from the Player class in `players.py`.
 
-- You can also play against an agent with a trained or scrpited action policy with `play_vs_bot.py`.
+- You can also play against an agent, with a trained or scrpited action policy, on a web application by running `python app.py` (Or locally with `python play_vs_bot.py ` if you love the command line).
 
 - The next step will be to add multi-agents training to the project.
 Then, it will be interesting to explore the path of self play to see how complex the behaviors of the agent can become !

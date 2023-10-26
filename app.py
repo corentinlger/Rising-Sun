@@ -73,4 +73,5 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
- # TODO : remember the game state when you use the play_again button, load the env and just reset it !!! 
+ # TODO : Remember the precedent game state when you use the play_again button, easiest way could be resting the current environment 
+ # TODO : Allow playing against trained RL agents and not only bots with scripted behaviors 
