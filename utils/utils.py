@@ -78,7 +78,7 @@ def get_logs_values(logdir, models, nb_seeds):
     return models_mean_arrays, models_std_arrays, timesteps
 
 
-def plot_results(logdir, models, problem_name):
+def plot_training_results(logdir, models, problem_name):
     """
     Matplotlib plot of the models performance during training
     :param logdir : (str) log directory
@@ -100,3 +100,32 @@ def plot_results(logdir, models, problem_name):
 
     plt.legend()
     plt.show()
+
+def plot_evaluation_results(rl_player_wins_list, bot_player_wins_list):
+    """
+    Matplotlib plot of the model performance against a bot
+    :param rl_player_wins_list : [(int)] Evolution of the rl player wins
+    :param bot_player_wins_list : [(int)] Evolution of the rl player wins
+    """
+    x = np.linspace(0, len(rl_player_wins_list), len(rl_player_wins_list))
+
+    plt.figure(figsize=(15, 5))
+    plt.title("Number of wins between trained RL and Heuristic Player")
+    plt.xlabel("Game number")
+    plt.ylabel("nb wins")
+
+    plt.plot(x, rl_player_wins_list, label='rl_player')
+    plt.plot(x, bot_player_wins_list, label='bot_player')
+
+    plt.legend()
+    plt.show()
+
+def create_saving_directories(fights_per_game):
+    experiment_name = f"{fights_per_game}_fights_per_game"
+    models_dir = os.path.join("models", experiment_name)
+    logs_dir = os.path.join("logs", experiment_name)
+
+    os.makedirs(logs_dir, exist_ok=True)
+    os.makedirs(models_dir, exist_ok=True)
+
+    return logs_dir, models_dir

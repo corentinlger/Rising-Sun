@@ -4,7 +4,14 @@ import argparse
 from stable_baselines3 import PPO
 
 from game.game_env import GameEnv
-from game.players import Player, HeuristicPlayer, SepukuPoetsPlayer, HumanPlayer
+from game.players import Player, HeuristicPlayer, SepukuPoetsPlayer, HumanPlayer, bot_player_dict
+
+# TODO : Add playing against trained agents
+    # TODO : Would surely need to change the game_env
+    # TODO : Enter a policy as parameter for the other player and choose its action according to it 
+    # TODO : Let the scripted behaviors, just add a player class called TrainedPlayer, and it should take more arguments 
+    # TODO : For example, the arguments necessary to load its model (action policy) and they would be initialized with None values in the GameEnv class
+    # TODO : Lets go peut être stylé et puis plus cool à présenter comme projet 
 
 def get_player_name():
     print("Hello and welcome to this version of the fighting phase of Rising Sun board game !")
@@ -12,17 +19,17 @@ def get_player_name():
     return player_name
 
 def initialize_players(player_name, bot_behavior):
-    
     player = HumanPlayer(name=player_name)
-
-    bot_player_dict = {"random" : Player,
-                       "heuristic": HeuristicPlayer,
-                       "sepuku_poets": SepukuPoetsPlayer}
     
     if bot_behavior in bot_player_dict:
         bot_player = bot_player_dict[bot_behavior](name='bot_player')
+    elif bot_behavior == "trained":
+        try:
+            pass
+        except:
+            raise(ValueError("A trained agent with those parameters hasn't been found"))
     else:
-        raise(ValueError("Unknown bot bahavior, RL opponents are not implemented yet"))
+        raise(ValueError("Unknown bot bahavior"))
 
     return player, bot_player
 

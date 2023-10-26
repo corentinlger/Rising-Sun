@@ -5,7 +5,7 @@ import numpy as np
 import gymnasium as gym
 from gymnasium import spaces
 
-from game.players import Player
+from game.players import Player, HeuristicPlayer, SepukuPoetsPlayer, HumanPlayer, bot_player_dict
 
 
 class GameEnv(gym.Env):
@@ -249,4 +249,22 @@ class GameEnv(gym.Env):
         print("\nCurrent state:")
         print(f'Fight : {self.fight_nb + 1} / {self.fights_per_game}')
         print(tabulate(data, headers="firstrow", tablefmt="fancy_grid"))
+
+
+def initialize_players(bot_behavior):
+    # TODO CHANGE THIS BECAUSE HERE THE PLAYER ISNT A RL PLAYER 
+
+
+    rl_player = Player(name='rl_player')
+    bot_player = bot_player_dict[bot_behavior](name='bot_player')
+    return rl_player, bot_player
+
+def initialize_game(args, rl_player, bot_player, verbose=True):
+    rl_player.reset()
+    bot_player.reset()
+    env = GameEnv(player=rl_player, bot_player=bot_player, fights_per_game=args.fights_per_game, verbose=verbose)
+
+    return env
+
+
 
