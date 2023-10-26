@@ -63,15 +63,14 @@ def play():
             game_status = get_game_status(player, bot_player)
             return redirect(f'/end_game?status={game_status}')
         
-    game_initialized = True
+    game_initialized = True 
     player_state = player.get_statistics()
     bot_state = bot_player.get_statistics()
-     
-    return render_template('play.html', player_state=player_state, bot_state=bot_state)
-
+    
+    return render_template('play.html', player_state=player_state, bot_state=bot_state, nb_fights=env.fights_per_game, fight_nb=env.fight_nb+1)
 
 if __name__ == '__main__':
     app.run(debug=True)
 
 
- # TODO : remember the game state when you use the play_again button
+ # TODO : remember the game state when you use the play_again button, load the env and just reset it !!! 
