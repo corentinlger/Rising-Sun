@@ -78,17 +78,16 @@ def get_logs_values(logdir, models, nb_seeds):
     return models_mean_arrays, models_std_arrays, timesteps
 
 
-def plot_training_results(logdir, models, problem_name):
+def plot_training_results(logdir, models):
     """
     Matplotlib plot of the models performance during training
     :param logdir : (str) log directory
     :param models : [(str)] models tested
-    :param problem_name : (str) problem name in title
     """
     models_mean_arrays, models_std_arrays, timesteps = get_logs_values(logdir, models)
 
     plt.figure(figsize=(15, 6))
-    plt.title("Evolution of mean episode reward on ''")
+    plt.title(f"Evolution of mean episode reward on {logdir}_{models}")
     plt.xlabel('Steps')
     plt.ylabel('Mean episode reward')
 
@@ -120,12 +119,15 @@ def plot_evaluation_results(rl_player_wins_list, bot_player_wins_list):
     plt.legend()
     plt.show()
 
-def create_saving_directories(fights_per_game):
-    experiment_name = f"{fights_per_game}_fights_per_game"
+def create_saving_directories(exp_name, fights_per_game, bot_behavior, verbose=False):
+    experiment_name = f"{exp_name}_" if exp_name else ""
+    experiment_name += f"{fights_per_game}_fights_per_game_vs_{bot_behavior}"
     models_dir = os.path.join("models", experiment_name)
     logs_dir = os.path.join("logs", experiment_name)
 
     os.makedirs(logs_dir, exist_ok=True)
     os.makedirs(models_dir, exist_ok=True)
+    if verbose :
+        print(f"Saving directories created for {experiment_name} experiment")
 
     return logs_dir, models_dir

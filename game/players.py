@@ -60,7 +60,7 @@ class TrainedPlayer(Player):
     Class to create an opponent with an action policy (behavior) trained with Reinforcement Learning.
     """
 
-    def __init__(self, name, fights_per_game=2, algo="PPO", training_timesteps=100000, seed=0):
+    def __init__(self, name='trained_player', exp_name='', fights_per_game=2, algo="PPO", tr_timesteps=100000, tr_bot_behavior='random', seed=0):
         self.name = name
         self.fights_per_game = fights_per_game
         self.golds = np.random.randint(5, 10)
@@ -68,35 +68,29 @@ class TrainedPlayer(Player):
         self.force_per_fights = np.random.randint(1, 6, size=self.fights_per_game)
         self.nb_ronins = np.random.randint(0, 3)
         self.nb_points = 0
-        logs_dir, models_dir = create_saving_directories(fights_per_game)
-        agent_name = create_agent_name(algo, training_timesteps, seed)
-        self.model = self.load_policy(algo, algos, models_dir, agent_name)
+        self.policy = self.load_policy(exp_name, algo, fights_per_game, tr_timesteps, tr_bot_behavior, seed)
 
-    def load_policy(self, algo, algos, models_dir, agent_name):
+    def load_policy(self, exp_name, algo, fights_per_game, training_timesteps, training_bot_behavior, seed):
         """
         Load a trained RL policy
         :param algo : (str) The algorithm used
-        :param models : {(str)} Hashmap of supported stable-baselines3 algorithms
         :param models_dir : (str) Path to the models saving directory
         :param agent_name : (str) Name of the RL agent in models directory
         """
+        logs_dir, models_dir = create_saving_directories(exp_name,fights_per_game, training_bot_behavior)
+        agent_name = load_agent_name(algo, training_timesteps, seed)
+
         model_name = os.path.join(models_dir, agent_name)
         try:
-            model = algos[algo].load(model_name)
+            policy = algos[algo].load(model_name)
         except:
             raise(ValueError(f"No model has been trained with this configuration yet"))
-        return model
+        return policy
 
 
     def choose_action(self, state):
-        self.gold_used_current_fight = np.random.randint(low=0, high=self.golds)
-        golds_per_action = np.zeros(4)
-        for i in range(self.gold_used_current_fight):
-            action = np.random.randint(0, len(golds_per_action))
-            golds_per_action[action] += 1
-        self.golds -= self.gold_used_current_fight
-        return golds_per_action
-
+        action = self.policy(state)
+        return action
 
 
 class SepukuPoetsPlayer(Player):
@@ -158,10 +152,13 @@ class HumanPlayer(Player):
         
         return golds_per_action
 
-# TODO : Problem with that because I shouldn't pass the seed in the initialization .... See the code used in ER-MRL 
 def create_agent_name(algo, training_timesteps):
+    agent_name = f"{algo}_{int(training_timesteps/1000)}k_steps"
+    print(f"{agent_name = }")
     return f"{algo}_{int(training_timesteps/1000)}k_steps"
 
+def load_agent_name(algo, training_timesteps, seed):
+    return f"{algo}_{int(training_timesteps/1000)}k_steps__seed_{seed}"
 
 bot_player_dict = {"random" : Player,
                    "heuristic": HeuristicPlayer,

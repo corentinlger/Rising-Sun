@@ -38,7 +38,6 @@ def ask_displaying_rules():
     display_rules = None
 
     while display_rules not in ["Y", "N"]:
-        condition = display_rules != "Y" or "N"
         display_rules = input()
 
     return True if display_rules == "Y" else False
