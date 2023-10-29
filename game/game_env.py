@@ -29,8 +29,8 @@ class GameEnv(gym.Env):
                  verbose: Optional[bool] = False):
         super().__init__()
 
-        self.rl_player = player
-        self.rl_player_gold = None
+        self.player = player
+        self.player_gold = None
         self.bot_player = bot_player
         self.actions_names = ['Sepuku', 'Hostage', 'Ronins', 'Imperial Poets']
         self.fight_nb = 0
@@ -67,10 +67,10 @@ class GameEnv(gym.Env):
         # reset les paramètres et ceux des deux joueurs aussi
         self.fight_nb = 0
         self.death_per_fights = np.zeros(self.fights_per_game)
-        self.rl_player.reset()
+        self.player.reset()
         self.bot_player.reset()
-        observation = self._get_observation(self.rl_player)
-        self.rl_player_gold = observation[5]
+        observation = self._get_observation(self.player)
+        self.player_gold = observation[5]
 
         info = {}
         return observation, info
@@ -96,23 +96,23 @@ class GameEnv(gym.Env):
 
         actions_assignement = np.zeros(4)
         for i, gold_balance in enumerate(action - bot_action):
-            # rl_player used more golds
+            # player used more golds
             if gold_balance > 0:
                 actions_assignement[i] = 1
             elif gold_balance < 0:
                 actions_assignement[i] = 2
 
-        reward_rl_player, reward_bot_player = self._apply_actions(assignement_vector=actions_assignement)
+        reward_player, reward_bot_player = self._apply_actions(assignement_vector=actions_assignement)
         # We want to increase our reward as much as we want to minimize the opponent reward
 
-        reward = self._reward_function(action, reward_rl_player, reward_bot_player)
+        reward = self._reward_function(action, reward_player, reward_bot_player)
 
-        observation = self._get_observation(self.rl_player)
+        observation = self._get_observation(self.player)
 
         done = self.fight_nb >= self.fights_per_game - 1
         if done:
-            # If it is the last fight of the episode, the rl_player get additional reward if he wins the game
-            if self.rl_player.nb_points > self.bot_player.nb_points:
+            # If it is the last fight of the episode, the player get additional reward if he wins the game
+            if self.player.nb_points > self.bot_player.nb_points:
                 reward += 10
 
         self.fight_nb += 1
@@ -127,22 +127,22 @@ class GameEnv(gym.Env):
         Transform the float to int action, and decrease the golds used if they exceed the possessed value
         """
         action = np.rint(action)
-        while sum(action) > self.rl_player.golds:
+        while sum(action) > self.player.golds:
             idx = np.random.randint(len(action))
             action[idx] = max(action[idx]-1, 0)
         return action
 
     def _reward_function(self, action: np.array, reward_rl: float, reward_bot: float) -> float:
         """
-        Calculates the reward for rl_player with its points, the points of his opponent and a penalty
+        Calculates the reward for player with its points, the points of his opponent and a penalty
         if he used more golds than available.
         """
         reward = reward_rl
         reward -= reward_bot * self.bot_reward_penalty
 
         golds_spent = np.sum(action)
-        if golds_spent > self.rl_player_gold:
-            surplus_gold = golds_spent - self.rl_player_gold
+        if golds_spent > self.player_gold:
+            surplus_gold = golds_spent - self.player_gold
             reward -= surplus_gold * self.golds_reward_penalty
 
         return reward
@@ -153,7 +153,7 @@ class GameEnv(gym.Env):
         Rt is composed of the fight number an of all the stats
         of the player getting the observation and of its opponent
         """
-        opponent_player = self.rl_player if player == self.bot_player else self.bot_player
+        opponent_player = self.player if player == self.bot_player else self.bot_player
 
         return np.array((self.fight_nb,
                          player.force_per_fights[0],
@@ -172,7 +172,7 @@ class GameEnv(gym.Env):
         apply the last action.
         """
         first_actions = [self._sepuku, self._hostage, self._ronins]
-        players = [self.rl_player, self.bot_player]
+        players = [self.player, self.bot_player]
         for i, player_id in enumerate(assignement_vector[:3]):
             if player_id != 0:
                 player_action_i = players[int(player_id - 1)]
@@ -180,11 +180,11 @@ class GameEnv(gym.Env):
 
         # TODO : add a bonus if already won the last fight
         # Checking of the winner and application of the fight rules
-        if self.rl_player.force_per_fights[self.fight_nb] != self.bot_player.force_per_fights[self.fight_nb]:
-            if self.rl_player.force_per_fights[self.fight_nb] > self.bot_player.force_per_fights[self.fight_nb]:
-                fight_winner, fight_loser = self.rl_player, self.bot_player
+        if self.player.force_per_fights[self.fight_nb] != self.bot_player.force_per_fights[self.fight_nb]:
+            if self.player.force_per_fights[self.fight_nb] > self.bot_player.force_per_fights[self.fight_nb]:
+                fight_winner, fight_loser = self.player, self.bot_player
             else:
-                fight_winner, fight_loser = self.bot_player, self.rl_player
+                fight_winner, fight_loser = self.bot_player, self.player
             self.death_per_fights[self.fight_nb] += fight_loser.force_per_fights[self.fight_nb]
             fight_loser.force_per_fights[self.fight_nb] = 0
             fight_loser.golds += fight_winner.gold_used_current_fight
@@ -195,7 +195,7 @@ class GameEnv(gym.Env):
             player_action_poets = players[int(assignement_vector[3] - 1)]
             self._poets(player_action_poets)
 
-        return self.rl_player.nb_points, self.bot_player.nb_points
+        return self.player.nb_points, self.bot_player.nb_points
 
     """
     Definition of the 4 available actions for a player :
@@ -214,7 +214,7 @@ class GameEnv(gym.Env):
         """
         The player captures every enemy units and gets 1 golds per unit captured
         """
-        captured_player = self.bot_player if player == self.rl_player else self.rl_player
+        captured_player = self.bot_player if player == self.player else self.player
         captured_units = captured_player.force_per_fights[self.fight_nb]
         captured_player.force_per_fights[self.fight_nb] = 0
         player.golds += captured_units
@@ -232,7 +232,7 @@ class GameEnv(gym.Env):
         player.nb_points += self.death_per_fights[self.fight_nb]
 
     def _show_game_state(self):
-        rl_name, rl_golds, rl_force_per_fights, rl_nb_ronins, rl_nb_points = self.rl_player.get_statistics()
+        rl_name, rl_golds, rl_force_per_fights, rl_nb_ronins, rl_nb_points = self.player.get_statistics()
         bot_name, bot_golds, bot_force_per_fights, bot_nb_ronins, bot_nb_points = self.bot_player.get_statistics()
 
         rl_force_str = ', '.join(map(str, rl_force_per_fights))
@@ -252,7 +252,7 @@ class GameEnv(gym.Env):
 
 
 def initialize_players(bot_behavior, evaluated_player=None):
-    player = Player(name='rl_player') if not evaluated_player else evaluated_player
+    player = Player(name='player') if not evaluated_player else evaluated_player
     bot_player = bot_player_dict[bot_behavior](name='bot_player')
     return player, bot_player
 
