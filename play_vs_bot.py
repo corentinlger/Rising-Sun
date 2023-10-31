@@ -4,14 +4,8 @@ import argparse
 from stable_baselines3 import PPO
 
 from game.game_env import GameEnv
-from game.players import Player, HeuristicPlayer, SepukuPoetsPlayer, HumanPlayer, bot_player_dict
+from game.players import HumanPlayer, bot_player_dict
 
-# TODO : Add playing against trained agents
-    # TODO : Would surely need to change the game_env
-    # TODO : Enter a policy as parameter for the other player and choose its action according to it 
-    # TODO : Let the scripted behaviors, just add a player class called TrainedPlayer, and it should take more arguments 
-    # TODO : For example, the arguments necessary to load its model (action policy) and they would be initialized with None values in the GameEnv class
-    # TODO : Lets go peut être stylé et puis plus cool à présenter comme projet 
 
 def get_player_name():
     print("Hello and welcome to this version of the fighting phase of Rising Sun board game !")
@@ -50,23 +44,21 @@ def display_rules():
 
 def play_game(player, bot_player, args):
     print(f"\nBeginning of the game")
-    # Initialize the environment 
     player_won_fights = bot_won_fights = 0
     env = GameEnv(player=player, bot_player=bot_player, fights_per_game=args.fights_per_game, verbose=True)
 
-    for game in range(args.nb_games):
+    for _ in range(args.nb_games):
         print("")
         obs, info = env.reset()
         done = False
         player_ep_nb_points = []
         bot_ep_nb_points = []
         while not done:
-            print("")
             action =  player.choose_action()
             obs, reward, done, truncated, info = env.step(action)
             player_ep_nb_points.append(player.nb_points)
             bot_ep_nb_points.append(bot_player.nb_points)
-            print(f"player points : {player.nb_points} bot_player points : {bot_player.nb_points}")
+            print(f"\nplayer points : {player.nb_points} bot_player points : {bot_player.nb_points}")
         if player.nb_points > bot_player.nb_points:
             player_won_fights += 1
         elif player.nb_points < bot_player.nb_points:
@@ -85,6 +77,7 @@ def print_game_result(player_won_fights, bot_won_fights):
 
 
 if __name__ == "__main__":
+    
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--nb_games", type=int, required=False, default=3)
@@ -108,3 +101,4 @@ if __name__ == "__main__":
     print_game_result(player_won_fights, bot_won_fights)
 
 
+# TODO : Either clean the file or put it in the gitignore so ppl play with the web app 

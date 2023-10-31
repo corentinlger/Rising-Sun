@@ -22,17 +22,17 @@
     <a href="{{ url_for('rules') }}">Check the rules</a>
 {% endblock %}
 
-<script>
+<script>    
 function validateForm() {
+    alert("validateForm called for index.html");
     var playerName = document.getElementById("player_name").value;
-    var nbFights = document.getElementById("nb_fights").value;
     var fightsPerGame = document.getElementById("fights_per_game").value;
 
-    if (playerName == "" || nbFights == "" || fightsPerGame == "") {
+    if (playerName == "" || fightsPerGame == "") {
         alert("Please fill in all fields in the form");
-        return false
+        return false;
     }
 
-    return true
+    return true;
 }
 </script>

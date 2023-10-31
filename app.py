@@ -9,6 +9,7 @@ def initialize_game(player_name, bot_behavior, fights_per_game=2):
     player, bot_player = initialize_players(player_name, bot_behavior)
     env = GameEnv(player=player, bot_player=bot_player, fights_per_game=fights_per_game, verbose=False)
     env.reset()
+    return env
 
 def get_game_status(player, bot_player):
     if player.nb_points > bot_player.nb_points:
@@ -22,8 +23,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    global game_initialized
+    global game_initialized, player_name, bot_behavior, fights_per_game
     game_initialized = False
+    player_name = None
+    bot_behavior = None
+    fights_per_game = None
     return render_template('index.html')
 
 @app.route('/rules')
@@ -43,14 +47,16 @@ def end_game():
 
 @app.route('/play', methods=['GET', 'POST'])
 def play():
-    global game_initialized, env, player, bot_player
+    global game_initialized, env, player, bot_player, player_name, bot_behavior, fights_per_game
 
-    if request.method == 'POST' and not game_initialized:
-        player_name = request.form['player_name']
-        bot_behavior = request.form['bot_behavior']
-        fights_per_game = int(request.form['fights_per_game'])
+    if not game_initialized:
+        if request.method == 'POST' and (not player_name or not bot_behavior or not fights_per_game):
 
-        initialize_game(player_name, bot_behavior, fights_per_game)
+            player_name = request.form['player_name']
+            bot_behavior = request.form['bot_behavior']
+            fights_per_game = int(request.form['fights_per_game'])
+
+        env = initialize_game(player_name, bot_behavior, fights_per_game)
 
     if request.method =='POST' and game_initialized == True:
         action = np.array([int(request.form['Sepuku']),
@@ -73,5 +79,4 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
- # TODO : Remember the precedent game state when you use the play_again button, easiest way could be resting the current environment 
  # TODO : Allow playing against trained RL agents and not only bots with scripted behaviors 

@@ -73,9 +73,14 @@ class TrainedPlayer(Player):
     def load_policy(self, exp_name, algo, fights_per_game, training_timesteps, training_bot_behavior, seed):
         """
         Load a trained RL policy
+
+        :param exp_name : (str) The name of the experience
         :param algo : (str) The algorithm used
-        :param models_dir : (str) Path to the models saving directory
-        :param agent_name : (str) Name of the RL agent in models directory
+        :param fights_per_game : (int) The number of fights per game
+        :param training_timestpes : (int) The number of training timesteps
+        :param training_bot_behavior : (str) The bot behavior used during training
+        :param seed : (int) The random seed of the training  
+        :return policy : The agent's pretained action policy      
         """
         logs_dir, models_dir = create_saving_directories(exp_name,fights_per_game, training_bot_behavior)
         agent_name = load_agent_name(algo, training_timesteps, seed)
@@ -89,6 +94,12 @@ class TrainedPlayer(Player):
 
 
     def choose_action(self, state):
+        """
+        Choose an action based on the current state.
+
+        :param state: ([int]) The current state of the environment.
+        :return: ([int]) The selected action.
+        """
         action = self.policy(state)
         return action
 
@@ -153,11 +164,26 @@ class HumanPlayer(Player):
         return golds_per_action
 
 def create_agent_name(algo, training_timesteps):
+    """
+    Create a unique agent name based on the algorithm and training timesteps.
+
+    :param algo: (str) The RL algorithm used.
+    :param training_timesteps: (int) The number of training timesteps.
+    :return: (str) The unique agent name.
+    """
     agent_name = f"{algo}_{int(training_timesteps/1000)}k_steps"
     print(f"{agent_name = }")
     return f"{algo}_{int(training_timesteps/1000)}k_steps"
 
 def load_agent_name(algo, training_timesteps, seed):
+    """
+    Load a unique agent name.
+
+    :param algo: (str) The RL algorithm used.
+    :param training_timesteps: (int) The number of training timesteps.
+    :param seed: (int) The random seed.
+    :return: (str) The unique agent name with seed.
+    """
     return f"{algo}_{int(training_timesteps/1000)}k_steps__seed_{seed}"
 
 bot_player_dict = {"random" : Player,

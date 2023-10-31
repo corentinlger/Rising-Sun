@@ -58,7 +58,21 @@
 
 
 <script>
-//Handle form submission
+function validateForm() {
+    console.log("validateForm called for play.html");
+    var sepuku = document.getElementById('Sepuku').value;
+    var hostage = document.getElementById('Hostage').value;
+    var ronins = document.getElementById('Ronins').value;
+    var imperialPoets = document.getElementById('Imperial_Poets').value;
+
+    if (sepuku == "" || hostage == "" || ronins == "" || imperialPoets == "") {
+        alert("Please fill in all fields in the form");
+        return false;
+    }
+
+    return true;
+}
+
 document.getElementById('action-form').addEventListener('submit', function(event) {
     event.preventDefault();
     var sepuku = document.getElementById('Sepuku').value;

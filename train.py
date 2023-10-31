@@ -17,8 +17,8 @@ if __name__ == '__main__':
     parser.add_argument('--algo', type=str, required=False, default="PPO")
     parser.add_argument('--fights_per_game', type=int, required=False, default=2)
     parser.add_argument("--bot_behavior", type=str, required=False, default="random")
-    parser.add_argument('--nb_seeds', type=int, required=False, default=3)
     parser.add_argument('--total_timesteps', type=int, required=False, default=100000)
+    parser.add_argument('--nb_seeds', type=int, required=False, default=3)
     parser.add_argument('--verbose', type=str, required=False, default="True")
 
     args = parser.parse_args()

@@ -62,7 +62,6 @@ if __name__ == '__main__':
     parser.add_argument("--bot_behavior", type=str, required=False, default="random")
     parser.add_argument("--tr_bot_behavior", type=str, required=False, default="random")
     parser.add_argument('--tr_timesteps', type=int, required=False, default=100000)
-    parser.add_argument('--nb_seeds', type=int, required=False, default=3)
     parser.add_argument('--seed', type=int, required=False, default=0)
     parser.add_argument('--nb_testing_games', type=int, required=False, default=1000)
 
