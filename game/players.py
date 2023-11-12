@@ -145,7 +145,6 @@ class HeuristicPlayer(Player):
             golds_per_action[action] += 1
         self.golds -= self.gold_used_current_fight
         return golds_per_action
-    
 
 
 class HumanPlayer(Player):
@@ -162,6 +161,7 @@ class HumanPlayer(Player):
         print(f"{golds_per_action = }")
         
         return golds_per_action
+
 
 def create_agent_name(algo, training_timesteps):
     """

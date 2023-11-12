@@ -120,6 +120,15 @@ def plot_evaluation_results(rl_player_wins_list, bot_player_wins_list):
     plt.show()
 
 def create_saving_directories(exp_name, fights_per_game, bot_behavior, verbose=False):
+    """
+    Create saving directories for the training results and last policy of trained agent
+    :param exp_name : (str) Name of the experiment
+    :param fights_per_game : (int) Number of fights per game
+    :param bot_behavior : (str) Name of opponent bot behavior 
+    :param verbose : (bool) wether to print the logs have been created or not 
+    :return logs_dir : (str) Saving directories for training results
+    :return models_dir : (str) Saving directories for last action policy
+    """
     experiment_name = f"{exp_name}_" if exp_name else ""
     experiment_name += f"{fights_per_game}_fights_per_game_vs_{bot_behavior}"
     models_dir = os.path.join("models", experiment_name)

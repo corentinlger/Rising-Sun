@@ -5,7 +5,7 @@ import numpy as np
 
 from stable_baselines3.common.env_checker import check_env
 
-from game.game_env import initialize_players, initialize_game
+from game.game_env import initialize_players_eval, initialize_game
 from game.players import Player, TrainedPlayer
 from utils.utils import create_saving_directories, plot_evaluation_results
 
@@ -15,7 +15,7 @@ def evaluate_model(nb_testing_games, env, model):
     Evaluate a trained RL agent against another bot
     :param nb_testing_games: (int) Number of games where agents compete with each other
     :param env : (GameEnv) Gymnasium environment
-    :param model : {(int)} Neural Network of the agent's  action policy
+    :param model : {(int)} Neural Network weights of the agent's action policy
     """
 
     player_wins, player_wins_list, player_nb_points = 0, [], []
@@ -77,7 +77,7 @@ if __name__ == '__main__':
                                    seed=args.seed)
     model = trained_player.policy 
     
-    rl_player, bot_player = initialize_players(args.bot_behavior, trained_player)
+    rl_player, bot_player = initialize_players_eval(args.bot_behavior, trained_player)
     env = initialize_game(player=trained_player, bot_player=bot_player, fights_per_game=args.fights_per_game, verbose=False) 
     check_env(env, warn=True)
 

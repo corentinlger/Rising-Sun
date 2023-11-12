@@ -10,7 +10,7 @@ You can also play against bots with trained or scripted behaviors on a web appli
 
 ```bash
 git clone git@github.com:corentinlger/Rising-Sun.git
-cd Rising-Snn
+cd Rising-Sun
 ```
 
 2- Install the dependencies

@@ -251,12 +251,27 @@ class GameEnv(gym.Env):
         print(tabulate(data, headers="firstrow", tablefmt="fancy_grid"))
 
 
-def initialize_players(bot_behavior, evaluated_player=None):
+def initialize_players_eval(bot_behavior, evaluated_player=None):
+    """
+    Initialize two players for evaluation
+    :param bot_behavior: (str) the bot_behavior (i.e. its action policy)
+    :param evaluated_player: (str) the nalme of the trained evaluated player
+    :return player: (Player) the evaluated player
+    :return bot_player: (Player) the bot player
+    """
     player = Player(name='player') if not evaluated_player else evaluated_player
     bot_player = bot_player_dict[bot_behavior](name='bot_player')
     return player, bot_player
 
 def initialize_game(player, bot_player, fights_per_game, verbose=True):
+    """
+    Initialize a game with two players
+    :param player: (Player) the evaluated player
+    :param bot_player: (Player) the bot player
+    :param fights_per_game: (int) the number of fights per game
+    :param verbose: (bool) wether to print infos during game or not 
+    :return env: (gym.Env) the game environment
+    """
     player.reset()
     bot_player.reset()
     env = GameEnv(player=player, bot_player=bot_player, fights_per_game=fights_per_game, verbose=verbose)
